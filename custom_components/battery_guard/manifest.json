@@ -1,0 +1,17 @@
+{
+  "domain": "battery_guard",
+  "name": "Battery Guard",
+  "codeowners": [
+    "@Zwieback80"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http"
+  ],
+  "documentation": "https://github.com/Zwieback80/battery-guard",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/Zwieback80/battery-guard/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

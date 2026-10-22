@@ -1,0 +1,121 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Battery Guard einrichten",
+        "description": "Battery Guard durchsucht automatisch alle Geräte mit Batterie-Sensoren und überwacht deren Status. Es wird nur eine Instanz benötigt."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Battery Guard ist bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Battery Guard – Einstellungen",
+        "data": {
+          "warn_threshold": "Beobachten ab (%)",
+          "low_threshold": "Niedrig ab (%)",
+          "critical_threshold": "Kritisch ab (%)",
+          "offline_hours": "Als offline gelten nach (Stunden ohne Meldung)",
+          "scan_interval_minutes": "Aktualisierungsintervall (Minuten)",
+          "history_days": "Verlaufsfenster für die Prognose (Tage)",
+          "forecast_interval_hours": "Prognose neu berechnen alle (Stunden)",
+          "auto_log_changes": "Batteriewechsel automatisch erkennen",
+          "auto_log_jump_threshold": "Sprung-Schwelle für automatische Erkennung (Prozentpunkte)",
+          "stale_grace_hours": "Karenzzeit für verwaiste Geräte (Stunden, 0 = deaktiviert)"
+        }
+      }
+    },
+    "error": {
+      "invalid_thresholds": "Die Schwellenwerte müssen absteigend sein: Beobachten > Niedrig > Kritisch."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_status": {
+        "name": "Batteriestatus"
+      },
+      "days_until_empty": {
+        "name": "Tage bis leer"
+      },
+      "health_score": {
+        "name": "Health Score"
+      },
+      "last_battery_change": {
+        "name": "Letzter Batteriewechsel"
+      },
+      "overview": {
+        "name": "Übersicht"
+      }
+    }
+  },
+  "services": {
+    "log_change": {
+      "name": "Batteriewechsel eintragen",
+      "description": "Trägt einen Batteriewechsel für ein von Battery Guard überwachtes Gerät ein. Aktualisiert die Batteriewechsel-Historie und, falls angegeben, den hinterlegten Batterietyp für dieses Gerät.",
+      "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Das Battery-Guard-Gerät, für das der Wechsel gilt."
+        },
+        "battery_type": {
+          "name": "Batterietyp",
+          "description": "z. B. CR2032, AA, AAA, 9V-Block"
+        },
+        "quantity": {
+          "name": "Anzahl Batterien",
+          "description": "Wie viele Batterien dieses Typs das Gerät benötigt (Standard: 1). Als Text-Feld definiert, damit auch Vorlagen (z. B. aus Dashboard-Aktionen) funktionieren – wird intern in eine Zahl umgewandelt."
+        },
+        "note": {
+          "name": "Notiz",
+          "description": "Optionale Anmerkung, z. B. Marke oder Kaufort."
+        },
+        "date": {
+          "name": "Wechseldatum",
+          "description": "Datum des Batteriewechsels. Standard, falls leer: heute."
+        }
+      }
+    },
+    "clear_history": {
+      "name": "Batteriewechsel-Historie zurücksetzen",
+      "description": "Löscht die komplette Batteriewechsel-Historie (und den hinterlegten Batterietyp) für ein Gerät unwiderruflich. Nützlich, um Testeinträge zu entfernen oder bei einem Gerätetausch neu zu starten.",
+      "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Das Battery-Guard-Gerät, dessen Historie gelöscht werden soll."
+        }
+      }
+    },
+    "set_battery_info": {
+      "name": "Batterietyp hinterlegen",
+      "description": "Legt fest, welchen Batterietyp und wie viele Batterien ein Gerät benötigt – unabhängig von der Wechsel-Historie. Damit ist die Einkaufsliste auch für Geräte korrekt, bei denen noch nie ein Wechsel eingetragen wurde.",
+      "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Das Battery-Guard-Gerät, für das der Batterietyp gilt."
+        },
+        "battery_type": {
+          "name": "Batterietyp",
+          "description": "z. B. CR2032, AA, AAA, 9V-Block"
+        },
+        "quantity": {
+          "name": "Anzahl Batterien",
+          "description": "Wie viele Batterien dieses Typs das Gerät benötigt (Standard: 1). Als Text-Feld definiert, damit auch Vorlagen funktionieren – wird intern in eine Zahl umgewandelt."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "unknown_device": {
+      "message": "Unbekanntes Gerät: {device_id}"
+    },
+    "not_battery_guard_device": {
+      "message": "Dieses Gerät gehört nicht zu Battery Guard."
+    },
+    "no_history": {
+      "message": "Für dieses Gerät ist keine Batteriewechsel-Historie hinterlegt."
+    }
+  }
+}

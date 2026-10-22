@@ -1,0 +1,55 @@
+# Projekt: Battery Guard
+# Copyright (c) 2026 Christian Brandt
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+# Lizenz: https://polyformproject.org/licenses/noncommercial/1.0.0
+#
+# Kommerzielle Nutzung ist durch diese Lizenz nicht gestattet.
+# Einzelheiten und Ausnahmen ergeben sich aus dem vollständigen Lizenztext.
+
+log_change:
+  fields:
+    device_id:
+      required: true
+      selector:
+        device:
+          integration: battery_guard
+    battery_type:
+      required: false
+      selector:
+        text:
+    quantity:
+      required: false
+      selector:
+        text:
+    note:
+      required: false
+      selector:
+        text:
+    date:
+      required: false
+      selector:
+        date:
+
+clear_history:
+  fields:
+    device_id:
+      required: true
+      selector:
+        device:
+          integration: battery_guard
+
+set_battery_info:
+  fields:
+    device_id:
+      required: true
+      selector:
+        device:
+          integration: battery_guard
+    battery_type:
+      required: true
+      selector:
+        text:
+    quantity:
+      required: false
+      selector:
+        text:

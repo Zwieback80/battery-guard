@@ -1,0 +1,121 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Battery Guard",
+        "description": "Battery Guard automatically scans all devices with battery sensors and monitors their status. Only one instance is needed."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Battery Guard is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Battery Guard – Settings",
+        "data": {
+          "warn_threshold": "Watch from (%)",
+          "low_threshold": "Low from (%)",
+          "critical_threshold": "Critical from (%)",
+          "offline_hours": "Consider offline after (hours without a report)",
+          "scan_interval_minutes": "Refresh interval (minutes)",
+          "history_days": "History window for the forecast (days)",
+          "forecast_interval_hours": "Recompute forecast every (hours)",
+          "auto_log_changes": "Detect battery changes automatically",
+          "auto_log_jump_threshold": "Jump threshold for automatic detection (percentage points)",
+          "stale_grace_hours": "Grace period for orphaned devices (hours, 0 = disabled)"
+        }
+      }
+    },
+    "error": {
+      "invalid_thresholds": "Thresholds must be descending: Watch > Low > Critical."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_status": {
+        "name": "Battery status"
+      },
+      "days_until_empty": {
+        "name": "Days until empty"
+      },
+      "health_score": {
+        "name": "Health score"
+      },
+      "last_battery_change": {
+        "name": "Last battery change"
+      },
+      "overview": {
+        "name": "Overview"
+      }
+    }
+  },
+  "services": {
+    "log_change": {
+      "name": "Log battery change",
+      "description": "Logs a battery change for a device monitored by Battery Guard. Updates the change history and, if given, the stored battery type.",
+      "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The Battery Guard device the change applies to."
+        },
+        "battery_type": {
+          "name": "Battery type",
+          "description": "e.g. CR2032, AA, AAA, 9V block"
+        },
+        "quantity": {
+          "name": "Number of batteries",
+          "description": "How many batteries of this type the device needs (default: 1). Defined as a text field so templates (e.g. from dashboard actions) also work; converted to a number internally."
+        },
+        "note": {
+          "name": "Note",
+          "description": "Optional remark, e.g. brand or place of purchase."
+        },
+        "date": {
+          "name": "Change date",
+          "description": "Date of the battery change. Default if empty: today."
+        }
+      }
+    },
+    "clear_history": {
+      "name": "Reset battery change history",
+      "description": "Irrevocably deletes the complete battery change history (and the stored battery type) for a device. Useful to remove test entries or to start over after replacing a device.",
+      "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The Battery Guard device whose history should be deleted."
+        }
+      }
+    },
+    "set_battery_info": {
+      "name": "Set battery type",
+      "description": "Defines which battery type and how many batteries a device needs, independent of the change history. This keeps the shopping list correct even for devices where no change has ever been logged.",
+      "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The Battery Guard device the battery type applies to."
+        },
+        "battery_type": {
+          "name": "Battery type",
+          "description": "e.g. CR2032, AA, AAA, 9V block"
+        },
+        "quantity": {
+          "name": "Number of batteries",
+          "description": "How many batteries of this type the device needs (default: 1). Defined as a text field so templates also work; converted to a number internally."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "unknown_device": {
+      "message": "Unknown device: {device_id}"
+    },
+    "not_battery_guard_device": {
+      "message": "This device does not belong to Battery Guard."
+    },
+    "no_history": {
+      "message": "No battery change history is stored for this device."
+    }
+  }
+}
